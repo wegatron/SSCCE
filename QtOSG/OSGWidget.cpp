@@ -102,7 +102,9 @@ OSGWidget::OSGWidget( QWidget* parent,
   g->addChild(transform);
   osg::ref_ptr<CustomTransformDragger> dragger = new CustomTransformDragger;
   dragger->setHandleEvents(true);
+  dragger->addTransformUpdating(transform);
   g->addChild(dragger);
+
 
   viewer_->setSceneData(g);
 
@@ -425,7 +427,6 @@ osgGA::EventQueue* OSGWidget::getEventQueue() const
 
 bool ui_handler::handle(const osgGA::GUIEventAdapter& ea,osgGA::GUIActionAdapter& aa)
 {
-  std::cerr << "handler!!!!" << std::endl;
   switch(ea.getEventType()) {
   case(osgGA::GUIEventAdapter::PUSH): {
     osgViewer::Viewer* view = dynamic_cast<osgViewer::Viewer*>(&aa);
@@ -443,7 +444,6 @@ bool ui_handler::handle(const osgGA::GUIEventAdapter& ea,osgGA::GUIActionAdapter
   case(osgGA::GUIEventAdapter::MOVE) : {
 //          osgViewer::Viewer* view = dynamic_cast<osgViewer::Viewer*>(&aa);
 
-    std::cerr << " mouse move" << std::endl;
     //      osgViewer::Viewer* view = dynamic_cast<osgViewer::Viewer*>(&aa);
     //      if (view) pick(view,ea);
     break;
@@ -466,33 +466,32 @@ bool ui_handler::handle(const osgGA::GUIEventAdapter& ea,osgGA::GUIActionAdapter
 
 void ui_handler::pick(osgViewer::Viewer* view, const osgGA::GUIEventAdapter& ea)
 {
-  osgUtil::LineSegmentIntersector::Intersections intersections;
+  // osgUtil::LineSegmentIntersector::Intersections intersections;
 
-  std::string gdlist="one :";
+  // std::string gdlist="one :";
 
-  if (view->computeIntersections(ea,intersections)) {
-    for(osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
-        hitr != intersections.end();
-        ++hitr) {
-      std::cout << "into loop" << std::endl;
-      std::ostringstream os;
-      if (!hitr->nodePath.empty() && !(hitr->nodePath.back()->getName().empty())) {
-        // the geodes are identified by name.
-        os<<"Object \""<<hitr->nodePath.back()->getName()<<"\""<<std::endl;
-      } else if (hitr->drawable.valid()) {
-        os<<"Object \""<<hitr->drawable->className()<<"\""<<std::endl;
-      }
-      os<< "        local coords vertex("<< hitr->getLocalIntersectPoint()<<")"<<"  normal("<<hitr->getLocalIntersectNormal()<<")"<<std::endl;
-      os<<"        world coords vertex("<< hitr->getWorldIntersectPoint()<<")"<<"  normal("<<hitr->getWorldIntersectNormal()<<")"<<std::endl;
-      const osgUtil::LineSegmentIntersector::Intersection::IndexList& vil = hitr->indexList;
-      for(unsigned int i=0; i<vil.size(); ++i) {
-        os<<"        vertex indices ["<<i<<"] = "<<vil[i]<<std::endl;
-      }
+  // if (view->computeIntersections(ea,intersections)) {
+  //   for(osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
+  //       hitr != intersections.end();
+  //       ++hitr) {
+  //     std::ostringstream os;
+  //     if (!hitr->nodePath.empty() && !(hitr->nodePath.back()->getName().empty())) {
+  //       // the geodes are identified by name.
+  //       os<<"Object \""<<hitr->nodePath.back()->getName()<<"\""<<std::endl;
+  //     } else if (hitr->drawable.valid()) {
+  //       os<<"Object \""<<hitr->drawable->className()<<"\""<<std::endl;
+  //     }
+  //     os<< "        local coords vertex("<< hitr->getLocalIntersectPoint()<<")"<<"  normal("<<hitr->getLocalIntersectNormal()<<")"<<std::endl;
+  //     os<<"        world coords vertex("<< hitr->getWorldIntersectPoint()<<")"<<"  normal("<<hitr->getWorldIntersectNormal()<<")"<<std::endl;
+  //     const osgUtil::LineSegmentIntersector::Intersection::IndexList& vil = hitr->indexList;
+  //     for(unsigned int i=0; i<vil.size(); ++i) {
+  //       os<<"        vertex indices ["<<i<<"] = "<<vil[i]<<std::endl;
+  //     }
 
-      gdlist += os.str();
-    }
-  } else {
-    std::cout << "intersect none!" << std::endl;
-  }
-  std::cout << gdlist << std::endl;
+  //     gdlist += os.str();
+  //   }
+  // } else {
+  //   std::cout << "intersect none!" << std::endl;
+  // }
+  // std::cout << gdlist << std::endl;
 }
