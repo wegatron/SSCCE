@@ -45,7 +45,7 @@ bool CustomTransformDragger::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUI
   if(!view) return false;
   bool handled = false;
 
-  point_info_.reset();
+  //point_info_.reset();
   switch(ea.getEventType()) {
   case osgGA::GUIEventAdapter::PUSH: {
     osgUtil::LineSegmentIntersector::Intersections intersections;
@@ -59,9 +59,11 @@ bool CustomTransformDragger::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUI
             point_info_.addIntersection(hitr->nodePath, hitr->getLocalIntersectPoint());
             std::cout << "local:" << hitr->getLocalIntersectPoint() << std::endl;
             std::cout << "world:" << hitr->getWorldIntersectPoint() << std::endl;
-            point_info_.setCamera(view->getCamera());
             osg::Camera *camera = view->getCamera();
-            std::cout << "point info's mvpW:" << camera->getViewMatrix() * camera->getProjectionMatrix() << std::endl;
+            point_info_.setCamera(camera);
+            std::cout << "point info's mvpW:"
+                      << camera->getViewMatrix() * camera->getProjectionMatrix()
+                      << std::endl;
             handled = handle2(ea, aa);
             _draggerActive = handled;
             break;
@@ -129,7 +131,7 @@ bool CustomTransformDragger::handle2(const osgGA::GUIEventAdapter& ea, osgGA::GU
 
     osg::Vec3d nearPoint, farPoint;
     point_info_.getNearFarPoints(nearPoint,farPoint);
-    std::cout << "near far point:" << nearPoint << " () " << farPoint << std::endl;
+    //    std::cout << "near far point:" << nearPoint << " () " << farPoint << std::endl;
 
     // osg::Plane plane = projector_->getPlane();
     //std::cout << "plane normal:" << plane.getNormal() << std::endl;
@@ -138,8 +140,10 @@ bool CustomTransformDragger::handle2(const osgGA::GUIEventAdapter& ea, osgGA::GU
 
     // compute transform vector and dispatch command
     osg::ref_ptr<osgManipulator::TranslateInLineCommand> cmd = new osgManipulator::TranslateInLineCommand();
+    cmd->setStage(osgManipulator::MotionCommand::MOVE);
     cmd->setTranslation(projected_point - prev_pt_);
-    std::cout << "current world:" << projected_point<< std::endl;
+
+    std::cout << "translate:" << projected_point - prev_pt_<< std::endl;
     dispatch(*cmd);
     // reset
     handled = true;
