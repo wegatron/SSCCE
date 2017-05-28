@@ -15,26 +15,31 @@ ApplicationWindow {
         DelegateModel {
             id: visualModel
             model: ListModel {
-                ListElement { name: qsTr("Apple") }
-                ListElement { name: qsTr("Orange") }
+                ListElement {
+                    itemName: qsTr("Apple")
+                    itemInputType: "checkbox"
+                }
+                ListElement {
+                    itemName: qsTr("Orange")
+                    itemInputType: "floatTextField"
+                }
             }
-            delegate: Rectangle {
+            delegate: BaseDelegate {
                 height: 50
                 width: 400
-                RowLayout {
-                    Label {
-                        text: name
-                    }
-                    TextField {
-                        id: textField1
-                        placeholderText: qsTr("Text Field")
-                    }
-                }
+                labelname: itemName
+                inputtype: itemInputType
+            }
+
+//            delegate: Rectangle {
+//                height: 50
+//                width: 400
+
 //                CheckBox {
 //                    checked: true
 //                    text: name
 //                }
-            }
+//            }
         }
 
         ListView {
