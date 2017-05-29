@@ -1,0 +1,13 @@
+* creating a configuration file
+    doxygen -g <config-file>
+
+** import params in config files
+
+*** EXTRACT_ALL option is set to NO in the configuration file (the default), then doxygen will only generate documentation for documented entities. 
+*** INPUT tag empty and doxygen will search for sources in the current directory.
+*** FILE_PATTERNS tag (for instance *.cpp *.h). Only files that match one of the patterns will be parsed (if the patterns are omitted a list of typical patterns is used for the types of files doxygen supports). For recursive parsing of a source tree you must set the RECURSIVE tag to YES. 
+
+
+2. running doxygen
+    doxygen <config-file>
+    

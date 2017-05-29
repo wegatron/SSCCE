@@ -30,16 +30,6 @@ ApplicationWindow {
                 labelname: itemName
                 inputtype: itemInputType
             }
-
-//            delegate: Rectangle {
-//                height: 50
-//                width: 400
-
-//                CheckBox {
-//                    checked: true
-//                    text: name
-//                }
-//            }
         }
 
         ListView {
