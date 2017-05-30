@@ -31,3 +31,4 @@ CMakeLists.txt.user
 # build directory
 build
 qt-build
+doxygen_demo/doc/*
