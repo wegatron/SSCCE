@@ -96,3 +96,5 @@ install(TARGETS ${app_name} RUNTIME DESTINATION .)
 install(CODE 
 "include(BundleUtilities)
 fixup_bundle(${CMAKE_INSTALL_PREFIX}/${app_name}_${COMPILER}_${BITS}.exe \"\" \"${Boost_LIBRARY_DIRS};${FLANN_ROOT}/bin;${G2O_ROOT}/bin;${ACTIVE_QT_DIR}/bin;D:/usr/pcl1.8.1/bin;d:/usr/Qhull/bin;D:/usr/OpenNI2/Tools\")")
+install(CODE
+"execute_process(COMMAND ${ACTIVE_QT_DIR}/bin/windeployqt.exe \"--release\" \"--plugindir\" \"${CMAKE_INSTALL_PREFIX}\" \"--no-translations\" \"--no-system-d3d-compiler\" \"${CMAKE_INSTALL_PREFIX}/${app_name}_${COMPILER}_${BITS}.exe\")")
