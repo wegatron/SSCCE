@@ -1,36 +1,39 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <vector>
 #include <iostream>
-//#include "zsw_clock.h"
+//#include <Eigen/Dense>
+#include <vector>
+#include <memory>
+//#include <boost/filesystem.hpp>
+#include <thread>
+#include <fstream>
 
-class TestC
+int main()
 {
-public:
-	TestC(std::unique_ptr<int> a): ma_(std::move(a))
+	int offset[75];
+	std::ifstream ifs("f:/tmp_zsw/zsw_offset.txt");
+	int val[2];
+	ifs >> val[0];
+	for (int i = 1; i < 75; ++i)
 	{
-
+		ifs >> val[1];
+		offset[i] = val[1] - val[0];
+		if (offset[i] < 0) offset[i] += 36000;
+		std::cout << offset[i] << " ";
+		val[0] = val[1];
 	}
-private:
-	std::unique_ptr<int> ma_;
-};
 
-
-int main(int argc, char *argv[])
-{
-	//if (argc != 2) {
-	//	std::cout << "usage test_io [file_path]" << std::endl;
-	//	return 0;
+	//while (!ifs.eof())
+	//{
+	//	ifs >> val[0];
+	//	for (int i = 1; i < 75; ++i)
+	//	{
+	//		ifs >> val[1];
+	//		if (offset[i] != val[1] - val[0])
+	//		{
+	//			std::cout << "diff" << std::endl;
+	//		}
+	//		val[0] = val[1];
+	//	}
+	//	std::cout << "fine!!!" << std::endl;
 	//}
-	//zsw::common::Clock clock;
-	//FILE * file = fopen(argv[1], "rb");
-	//fseek(file, 0, SEEK_END);
-	//int size = ftell(file);
-	//std::vector<char> data(size);
-	//fread(data.data(), sizeof(char), size, file);
-	//fclose(file);
-	//std::cout << "read time cost:" << clock.totalTime() << std::endl;
-	std::unique_ptr<int> a(new int);
-	TestC tc(std::move(a));
 	return 0;
 }

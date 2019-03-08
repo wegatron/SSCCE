@@ -1,18 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
-project(GraphSlam3DTool_V2)
+project(app_name)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(app_name GraphSlam3DTool_V2)
+set(app_name app_name)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-include(cmake_self.cmake)
-include(common.cmake)
-set(CMAKE_DEBUG_POSTFIX _${COMPILER}_${BITS}d)
-set(CMAKE_RELEASE_POSTFIX _${COMPILER}_${BITS})
+include($ENV{HOME}/usr/cmake_modules/cmake_self.cmake)
+include($ENV{HOME}/usr/cmake_modules/common.cmake)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/lib)
@@ -71,9 +69,6 @@ source_group(src\\GraphBuild FILES ${graph_build_src})
 add_executable(${app_name} ...)
 
 target_link_libraries(${app_name}
-ComUtils
-PoseUtils
-SensorDataFrame
 ${Boost_LIBRARIES}
 ${VTK_LIBRARIES}
 ${PCL_LIBRARIES}
